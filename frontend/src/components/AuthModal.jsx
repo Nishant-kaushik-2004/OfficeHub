@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-const AuthModal = ({ show, handleClose }) => {
+const AuthModal = ({ show, handleClose, handleLogin }) => {
   const [isSignup, setIsSignup] = useState(true);
+  const [name, setName] = useState('');
+  const [role, setRole] = useState('Select Role');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const toggleAuthMode = () => setIsSignup(!isSignup);
 
-  const toggleAuthMode = () => {
-    setIsSignup(!isSignup);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    // Dummy user data creation for now
+    const userData = {
+      name: isSignup ? name : 'Existing User',
+      role: isSignup ? role : 'Employee',
+      email: email,
+    };
+    handleLogin(userData); // Pass the user data to the parent component
   };
 
   return (
@@ -14,19 +27,17 @@ const AuthModal = ({ show, handleClose }) => {
         <Modal.Title>{isSignup ? 'Sign Up' : 'Login'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={onSubmit}>
           {isSignup && (
             <>
-              {/* Name Field */}
               <Form.Group controlId="formBasicName">
                 <Form.Label>Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter your name" />
+                <Form.Control type="text" placeholder="Enter your name" value={name} onChange={e => setName(e.target.value)} />
               </Form.Group>
 
-              {/* Role Dropdown */}
               <Form.Group controlId="formBasicRole">
                 <Form.Label>Role</Form.Label>
-                <Form.Control as="select" defaultValue="Select Role">
+                <Form.Control as="select" value={role} onChange={e => setRole(e.target.value)}>
                   <option disabled>Select Role</option>
                   <option>Manager</option>
                   <option>Boss</option>
@@ -42,50 +53,16 @@ const AuthModal = ({ show, handleClose }) => {
             </>
           )}
 
-          {/* Email Field */}
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
           </Form.Group>
 
-          {/* Password Field */}
           <Form.Group controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Enter password" />
+            <Form.Control type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} />
           </Form.Group>
 
-          {/* Confirm Password Field (Only for Signup) */}
-          {isSignup && (
-            <Form.Group controlId="formBasicPasswordConfirm">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control type="password" placeholder="Confirm password" />
-            </Form.Group>
-          )}
-
-          {/* Account Status Toggle Text */}
-          <div className="text-center mt-3">
-            {isSignup ? (
-              <>
-                <p>
-                  Already have an account?{' '}
-                  <Button variant="link" onClick={toggleAuthMode}>
-                    Login here
-                  </Button>
-                </p>
-              </>
-            ) : (
-              <>
-                <p>
-                  Don't have an account?{' '}
-                  <Button variant="link" onClick={toggleAuthMode}>
-                    Sign up here
-                  </Button>
-                </p>
-              </>
-            )}
-          </div>
-
-          {/* Submit Button */}
           <Button variant="primary" type="submit" className="w-100 mt-3">
             {isSignup ? 'Sign Up' : 'Login'}
           </Button>

@@ -1,23 +1,21 @@
 import React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Button } from 'react-bootstrap';
 
-const NavigationBar = ({ handleShow }) => {
+const NavigationBar = ({ handleShow, isAuthenticated, handleLogout }) => {
   return (
-
-    <Navbar bg="primary" variant="dark" expand="lg" className="navbar sticky-top"   >
-        <div className="container-fluid">
-            <a className="navbar-brand">Office Manager</a>
-            <div className="d-flex" >
-                <button className="btn btn-success"  onClick={handleShow} type="submit">Login</button>
-            </div>
+    <Navbar bg="primary" variant="dark" expand="lg" className="navbar sticky-top">
+      <div className="container-fluid">
+        <a className="navbar-brand">OfficeOpsHub</a>
+        <div className="d-flex">
+          {isAuthenticated ? (
+            <Button variant="outline-danger" onClick={handleLogout}>Logout</Button>
+          ) : (
+            <Button className="btn btn-success" onClick={handleShow}>Login</Button>
+          )}
         </div>
-    </Navbar>    
-
-    
+      </div>
+    </Navbar>
   );
 };
 
 export default NavigationBar;
-
-
-
