@@ -21,10 +21,12 @@ const AuthModal = ({ show, handleClose }) => {
       if (isSignup) {
         // Create new user (Sign Up)
         const response = await axios.post('http://localhost:5000/api/users/signup', { username: name, email, password, role });
+        localStorage.setItem("user", JSON.stringify(response.data));
         console.log('User signed up successfully:', response);
       } else {
         // Log in existing user
         const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
+        localStorage.setItem("users", JSON.stringify(response.data));
         console.log('User logged in successfully:', response.data);
       }
 

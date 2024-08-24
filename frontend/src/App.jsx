@@ -2,6 +2,7 @@ import  { useState, useEffect } from 'react';
 import NavigationBar from './components/NavBar';
 import HeroSection from './components/HeroSection';
 import AuthModal from './components/AuthModal';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   const [show, setShow] = useState(false);
