@@ -5,5 +5,7 @@ const router = express.Router();
 router.route('/signup').post(createUser);
 router.route('/login').post(login);
 router.route('/logout').post(logout);
+// router.get('/checkAuth', checkAuth);
+
 
 export default router;

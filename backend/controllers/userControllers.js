@@ -4,9 +4,19 @@ import bcrypt from "bcryptjs"
 
 const createUser = async (req, res) => {
     const { username, email, password, role } = req.body;
-    if (!username || !email || !password || !role) {
-        throw new Error("Please provide all info");
+    if (!username) {
+        throw new Error("Please provide name");
     }
+    if (!email) {
+        throw new Error("Please provide email");
+    }
+    if (!password) {
+        throw new Error("Please provide password");
+    }
+    if (!role) {
+        throw new Error("Please provide role");
+    }
+
     const alreadyExists = await User.findOne({ email });
     if (alreadyExists) {
         res.status(400).send("User already exists");
@@ -28,6 +38,7 @@ const createUser = async (req, res) => {
             email: newUser.email,
             role: newUser.role,
             isAdmin: newUser.isAdmin
+
         })
     } catch (error) {
         res.status(500);
@@ -71,5 +82,24 @@ const logout = async (req, res) => {
     })
     res.status(201).send("User logged out");
 }
+// const checkAuth = async (req, res) => {
+//     const token = req.cookies.jwt;
+//     if (!token) {
+//         return res.status(401).json({ message: 'Not authenticated' });
+//     }
+
+//     try {
+//         const decoded = jwt.verify(token, process.env.SECRET_KEY);
+//         const user = await User.findById(decoded.userId).select('-password');
+//         if (!user) {
+//             return res.status(401).json({ message: 'User not found' });
+//         }
+//         res.status(200).json(user);
+//     } catch (error) {
+//         res.status(401).json({ message: 'Invalid token' });
+//     }
+// };
 
 export { createUser, login, logout };
+
+
